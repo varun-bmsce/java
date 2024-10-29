@@ -1,60 +1,68 @@
-import java.util.Scanner;
 
-class Book {
-    public String name; // Public member
-    private String author; // Private member
-    double price;
-    int num_pages;
+abstract class Shape {
+    int dimension1;
+    int dimension2;
 
-    // Constructor to initialize the Book
-    public Book(String name, String author, double price, int num_pages) {
-        this.name = name;
-        this.author = author;
-        this.price = price;
-        this.num_pages = num_pages;
+
+    public Shape(int dimension1, int dimension2) {
+        this.dimension1 = dimension1;
+        this.dimension2 = dimension2;
     }
 
-    // Method to display book details
-    public void display() {
-        System.out.println(this);
+
+    abstract void printArea();
+}
+
+
+class Rectangle extends Shape {
+    public Rectangle(int length, int width) {
+        super(length, width);
     }
 
-    // Override toString method
+
     @Override
-    public String toString() {
-        return "Name: " + name + ", Author: " + author + ", Price: " + price + ", Pages: " + num_pages;
+    void printArea() {
+        int area = dimension1 * dimension2;
+        System.out.println("Rectangle Area: " + area);
+    }
+}
+
+
+class Triangle extends Shape {
+    public Triangle(int base, int height) {
+        super(base, height);
+    }
+
+
+    @Override
+    void printArea() {
+        double area = 0.5 * dimension1 * dimension2;
+        System.out.println("Triangle Area: " + area);
+    }
+}
+
+class Circle extends Shape {
+    public Circle(int radius) {
+        super(radius, radius);
+    }
+
+
+    @Override
+    void printArea() {
+        double area = Math.PI * dimension1 * dimension1;
+        System.out.println("Circle Area: " + area);
     }
 }
 
 public class Main {
     public static void main(String[] args) {
-        Scanner sc = new Scanner(System.in);
-        System.out.print("Enter number of books: ");
-        int n = sc.nextInt();
-        sc.nextLine(); // Consume newline
+        Shape rectangle = new Rectangle(10, 5);
+        rectangle.printArea();
 
-        Book[] books = new Book[n];
+        Shape triangle = new Triangle(10, 5);
+        triangle.printArea();
 
-        for (int i = 0; i < n; i++) {
-            System.out.println("Enter details for book " + (i + 1) + ":");
-            System.out.print("Name: ");
-            String name = sc.nextLine();
-            System.out.print("Author: ");
-            String author = sc.nextLine();
-            System.out.print("Price: ");
-            double price = sc.nextDouble();
-            System.out.print("Number of Pages: ");
-            int num_pages = sc.nextInt();
-            sc.nextLine(); // Consume newline
-
-            books[i] = new Book(name, author, price, num_pages);
-        }
-
-        System.out.println("\nBook Details:");
-        for (Book book : books) {
-            book.display();
-        }
-
-        sc.close();
+        Shape circle = new Circle(7);
+        circle.printArea();
     }
 }
