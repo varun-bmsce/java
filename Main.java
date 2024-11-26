@@ -1,68 +1,60 @@
+import CIE.*;
+import SEE.*;
 
-abstract class Shape {
-    int dimension1;
-    int dimension2;
-
-
-    public Shape(int dimension1, int dimension2) {
-        this.dimension1 = dimension1;
-        this.dimension2 = dimension2;
-    }
-
-
-    abstract void printArea();
-}
-
-
-class Rectangle extends Shape {
-    public Rectangle(int length, int width) {
-        super(length, width);
-    }
-
-
-    @Override
-    void printArea() {
-        int area = dimension1 * dimension2;
-        System.out.println("Rectangle Area: " + area);
-    }
-}
-
-
-class Triangle extends Shape {
-    public Triangle(int base, int height) {
-        super(base, height);
-    }
-
-
-    @Override
-    void printArea() {
-        double area = 0.5 * dimension1 * dimension2;
-        System.out.println("Triangle Area: " + area);
-    }
-}
-
-class Circle extends Shape {
-    public Circle(int radius) {
-        super(radius, radius);
-    }
-
-
-    @Override
-    void printArea() {
-        double area = Math.PI * dimension1 * dimension1;
-        System.out.println("Circle Area: " + area);
-    }
-}
+import java.util.Scanner;
 
 public class Main {
     public static void main(String[] args) {
-        Shape rectangle = new Rectangle(10, 5);
-        rectangle.printArea();
+        Scanner scanner = new Scanner(System.in); 
 
-        Shape triangle = new Triangle(10, 5);
-        triangle.printArea();
+        System.out.print("Enter number of students: ");
+        int n = scanner.nextInt();
 
-        Shape circle = new Circle(7);
-        circle.printArea();
+                Student[] students = new Student[n];
+        Internals[] internals = new Internals[n];
+        External[] externals = new External[n];
+
+        for (int i = 0; i < n; i++) {
+                        System.out.println("\nEnter details for student " + (i + 1));
+            System.out.print("Enter USN: ");
+            String usn = scanner.next();
+            System.out.print("Enter name: ");
+            String name = scanner.next();
+            System.out.print("Enter semester: ");
+            int sem = scanner.nextInt();
+
+                      students[i] = new Student(usn, name, sem);
+            internals[i] = new Internals();
+            externals[i] = new External(usn, name, sem);
+
+                        System.out.println("Enter internal marks for 5 courses: ");
+            int[] internalMarks = new int[5];
+            for (int j = 0; j < 5; j++) {
+                internalMarks[j] = scanner.nextInt();
+            }
+            internals[i].setInternalMarks(internalMarks);
+
+                        System.out.println("Enter external marks for 5 courses: ");
+            int[] externalMarks = new int[5];
+            for (int j = 0; j < 5; j++) {
+                externalMarks[j] = scanner.nextInt();
+            }
+            externals[i].setExternalMarks(externalMarks);
+        }
+
+        System.out.println("\nFinal Marks of Students:");
+        for (int i = 0; i < n; i++) {
+            System.out.println("\nStudent: " + students[i].name + " (" + students[i].usn + ")");
+            int[] internalMarks = internals[i].getInternalMarks();
+            int[] externalMarks = externals[i].getExternalMarks();
+            int[] finalMarks = new int[5];
+
+            for (int j = 0; j < 5; j++) {
+                finalMarks[j] = internalMarks[j] + externalMarks[j];
+                System.out.println("Course " + (j + 1) + " - Final Marks: " + finalMarks[j]);
+            }
+        }
+
+        scanner.close();
     }
 }
